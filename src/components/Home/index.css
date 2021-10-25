@@ -1,0 +1,13 @@
+.flex-item {
+  display: flex;
+  flex-direction: column;
+  flex: 0.8;
+}
+
+.home-bg-dark {
+  background-color: #000000;
+}
+
+.home-bg-light {
+  background-color: #ffffff;
+}

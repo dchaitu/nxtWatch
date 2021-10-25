@@ -1,0 +1,43 @@
+.not-found {
+  background-color: black;
+  color: white;
+  height: 100vh;
+}
+
+.text-color {
+  color: white;
+}
+
+.center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-self: center; */
+}
+
+.imgs {
+  height: 200px;
+  width: 100px;
+}
+
+.none {
+  list-style-type: none;
+}
+
+.profileImg {
+  height: 40px;
+}
+
+.mb {
+  margin-bottom: 0px;
+}
+
+.pad {
+  padding: 10px;
+  margin-top: 0px;
+}
+.pt {
+  padding-top: 2.5px;
+  padding-right: 3px;
+}
