@@ -46,9 +46,9 @@ export default class Home extends Component {
     </div>
   )
 
-  renderAllProducts = () => {
+  renderAllHomeVideos = () => {
     const {apiStatus} = this.state
-    console.log(apiStatus)
+    console.log('apiStatus', apiStatus)
     switch (apiStatus) {
       case apiStatusConstants.success:
         return this.renderProductsListView()
@@ -61,51 +61,77 @@ export default class Home extends Component {
     }
   }
 
-  renderProductsListView = () => {
-    const {videosList} = this.state
-    const shouldShowVideosList = videosList.length > 0
-    console.log(shouldShowVideosList)
-    return shouldShowVideosList ? (
-      <RowVideo>
-        <SideBar />
-        <div className="flex-item">
-          <Banner />
-          <div className="input-group">
-            <div className="form-outline">
-              <input
-                type="search"
-                onChange={this.onChangeSearchInput}
-                id="form1"
-                className="form-control"
-              />
+  renderProductsListView = () => (
+    <CartContext.Consumer>
+      {value => {
+        const {isDarkTheme} = value
+
+        const homeBgClassName = isDarkTheme ? 'home-bg-dark' : 'home-bg-light'
+
+        const homeTextClassName = isDarkTheme
+          ? 'home-text-light'
+          : 'home-text-dark'
+        const {videosList} = this.state
+        const shouldShowVideosList = videosList.length > 0
+
+        return shouldShowVideosList ? (
+          <RowVideo>
+            <div className="flex-item">
+              <Banner />
+              <div className="input-group">
+                <div className="form-outline">
+                  <input
+                    type="search"
+                    // onChange={this.onChangeSearchInput}
+                    onKeyDown={this.onEnterSearchInput}
+                    id="form1"
+                    className="form-control"
+                  />
+                </div>
+                <button
+                  type="button"
+                  onClick={this.onChangeSearchInput}
+                  className="btn btn-secondary"
+                >
+                  <AiOutlineSearch />
+                </button>
+              </div>
+              <Unordered>
+                {videosList.map(video => (
+                  <Link to={`/video/${video.id}`}>
+                    <ThumbNail
+                      videos={video}
+                      textColor={`${homeTextClassName}`}
+                    />
+                  </Link>
+                ))}
+              </Unordered>
             </div>
-            <button type="button" className="btn btn-primary">
-              <AiOutlineSearch />
-            </button>
+          </RowVideo>
+        ) : (
+          <div className="no-products-view d-flex flex-column align-items-center">
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-search-results-img.png"
+              className="no-products-img"
+              alt="no videos"
+            />
+            <div className={`d-flex flex-column ${homeTextClassName}`}>
+              <h1 className="no-products-heading">No Search results found</h1>
+              <p className="no-products-description">
+                Try different key words or remove search filter.
+                <br />
+                <Link to="/">
+                  <button type="button" className="retry-btn">
+                    Retry
+                  </button>
+                </Link>
+              </p>
+            </div>
           </div>
-          <Unordered>
-            {videosList.map(video => (
-              <Link to={`/video/${video.id}`}>
-                <ThumbNail videos={video} />
-              </Link>
-            ))}
-          </Unordered>
-        </div>
-      </RowVideo>
-    ) : (
-      <div className="no-products-view">
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-no-products-view.png"
-          className="no-products-img"
-          alt="no products"
-        />
-        <h1 className="no-products-heading">No Products Found</h1>
-        <p className="no-products-description">
-          We could not find any products. Try other filters.
-        </p>
-      </div>
-    )
-  }
+        )
+      }}
+    </CartContext.Consumer>
+  )
 
   getVideos = async () => {
     const api = 'https://apis.ccbp.in/videos/all?search='
@@ -147,6 +173,11 @@ export default class Home extends Component {
     }
   }
 
+  onEnterSearchInput = async event => {
+    this.setState({searchInput: event.target.value})
+    console.log(event.target.value)
+  }
+
   onChangeSearchInput = async event => {
     const {searchInput} = this.state
     this.setState({searchInput: event.target.value})
@@ -172,34 +203,36 @@ export default class Home extends Component {
     </div>
   )
 
-  //   render() {
-  //     ;<CartContext.Consumer>
-  //       {value => {
-  //         const {isDarkTheme} = value
-
-  //         const homeBgClassName = isDarkTheme ? 'home-bg-dark' : 'home-bg-light'
-
-  //         const homeTextClassName = isDarkTheme
-  //           ? 'home-text-light'
-  //           : 'home-text-dark'
-  //         return (
-  //           <div className={`${homeBgClassName}`}>
-  //             <Header />
-
-  //             {this.renderAllProducts()}
-  //           </div>
-  //         )
-  //       }}
-  //     </CartContext.Consumer>
-  //   }
-  // }
-
   render() {
     return (
-      <>
-        <Header />
-        {this.renderAllProducts()}
-      </>
+      <CartContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+
+          const homeBgClassName = isDarkTheme ? 'home-bg-dark' : 'home-bg-light'
+
+          const homeTextClassName = isDarkTheme
+            ? 'home-text-light'
+            : 'home-text-dark'
+          return (
+            <div className={`${homeBgClassName}`}>
+              <div className="d-flex flex-row">
+                <div>{this.renderAllHomeVideos()}</div>
+              </div>
+            </div>
+          )
+        }}
+      </CartContext.Consumer>
     )
   }
 }
+
+//   render() {
+//     return (
+//       <>
+//         <Header />
+//         {this.renderAllProducts()}
+//       </>
+//     )
+//   }
+// }

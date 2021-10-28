@@ -9,7 +9,7 @@ export const RowVideo = styled.div`
 
 export const Unordered = styled.div`
   display: flex;
-  margin: auto;
+  //   margin: auto;
   padding: 10px;
   //   flex-wrap: wrap;
   flex: 0.8;

@@ -5,26 +5,20 @@ export const Row = styled.div`
   flex-direction: row;
 `
 export const ThumbNailImg = styled.img`
-  height: 150px;
+  width: 200px;
+  height: 300px;
   margin: 20px;
 `
-export const Bold = styled.h1`
-  font-size: 16px;
-  font-weight: 500;
-  font-family: 'Roboto';
-`
+export const NoVideos = styled.img`
+  width: 70vw;
+  height: 90vh;
 
-export const Gray = styled.h1`
-  font-size: 12px;
-  color: grey;
-  //   font-weight: bold;
-  font-family: 'Roboto';
+  margin: 20px;
 `
 
 export const Col = styled.div`
   display: flex;
   flex-direction: column;
-  width: 20vw;
 `
 export const Box = styled.div`
   display: flex;
@@ -33,10 +27,5 @@ export const Box = styled.div`
   flex-wrap: wrap;
   //   width: 300px;
   //   padding: 20px;
-  //   margin: 20px;
-`
-export const Info = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin-top: 20px;
+  margin: 10px;
 `

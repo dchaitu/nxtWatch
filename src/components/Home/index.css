@@ -5,9 +5,38 @@
 }
 
 .home-bg-dark {
-  background-color: #000000;
+  background-color: #181818;
 }
 
 .home-bg-light {
-  background-color: #ffffff;
+  background-color: #f9f9f9;
+}
+
+.home-text-light {
+  color: #ffffff;
+}
+
+.home-text-dark {
+  color: #1e293b;
+}
+
+.input-group {
+  width: 40vw;
+  margin: 15px;
+}
+
+.retry-btn {
+  background-color: #4f46e5;
+  padding: 8px;
+  color: white;
+  border-radius: 4px;
+}
+
+.no-products-img {
+  width: 250px;
+  height: 180px;
+}
+
+.form-control {
+  width: 20vw;
 }

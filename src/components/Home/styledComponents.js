@@ -12,7 +12,8 @@ export const Unordered = styled.div`
   flex-wrap: wrap;
   border: 1px solid;
   flex: 0.8;
-  background-color: #f9f9f9;
+  background-color: transparent;
+  width: 70vw;
 `
 
 export const Input = styled.input`

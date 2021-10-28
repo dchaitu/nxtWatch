@@ -7,6 +7,7 @@ import TrendingItems from '../TrendingItems'
 import SideBar from '../SideBar'
 import {RowVideo, Unordered, Input} from './styledComponents'
 import Header from '../Header'
+import CartContext from '../../context/CartContext'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -42,7 +43,7 @@ export default class VideoItem extends Component {
     </div>
   )
 
-  renderAllTrendingProducts = () => {
+  displayVideo = () => {
     const {apiStatus} = this.state
     console.log(apiStatus)
     switch (apiStatus) {
@@ -59,10 +60,9 @@ export default class VideoItem extends Component {
 
   renderTrending = () => {
     const {videoDetails} = this.state
+
     return (
       <RowVideo>
-        <SideBar />
-
         <VideoItemDetails videoDetails={videoDetails} />
       </RowVideo>
     )
@@ -125,14 +125,6 @@ export default class VideoItem extends Component {
   )
 
   render() {
-    const {videosList, isLoading} = this.state
-    return (
-      <>
-        <Header />
-        <Banner />
-        <Input type="search" placeholder="Search" />
-        {this.renderAllTrendingProducts()}
-      </>
-    )
+    return <>{this.displayVideo()}</>
   }
 }

@@ -1,36 +1,47 @@
-import {Row, Col, Box, ThumbNailImg, NoVideos} from './styledComponents'
+import {MdPlaylistAdd} from 'react-icons/md'
+import NoVideos from '../NoVideos'
+import Header from '../Header'
+import SideBar from '../SideBar'
+import {Row, Col, Box, ThumbNailImg} from './styledComponents'
 import CartContext from '../../context/CartContext'
-
+import VideoListView from '../VideoListView'
 import './index.css'
 
-const SavedVideos = props => (
+const SavedVideos = () => (
   <CartContext.Consumer>
     {value => {
-      const {cartList, removeAllCartItems} = value
-      const showEmptyView = cartList.length === 0
-      const onClickRemoveAllBtn = () => {
-        removeAllCartItems()
-      }
-      //   const {videos} = props
-      //   const {id, thumbnail, title, views} = videos
-      //   const {channelName, profileImage} = channel
-      // <li className="none" key={id}>
-      //   <Box>
-      //     <div className="center">
-      //       <ThumbNailImg src={thumbnail} alt="thumbnail" />
-      //       <Col>
-      //         <h3>{title}</h3>
+      const {videosList, isDarkTheme} = value
+      const showEmptyView = videosList.length === 0
+      const homeBgClassName = isDarkTheme ? 'home-bg-dark' : 'home-bg-light'
 
-      //         <p>{views} views</p>
-      //       </Col>
-      //     </div>
-      //   </Box>
-      // </li>
+      const homeTextClassName = isDarkTheme
+        ? 'home-text-light'
+        : 'home-text-dark'
+
       return (
-        <NoVideos
-          src="https://assets.ccbp.in/frontend/react-js/nxt-watch-no-saved-videos-img.png"
-          alt="no saved videos"
-        />
+        <>
+          <div className={`cart-container ${homeBgClassName}`}>
+            <Header />
+            <div className="d-flex flex-row">
+              <SideBar />
+              {showEmptyView ? (
+                <NoVideos
+                  homeBgClassName={homeBgClassName}
+                  homeTextClassName={homeTextClassName}
+                />
+              ) : (
+                <>
+                  <div className="d-flex flex-column">
+                    <p className="trend-head">
+                      <MdPlaylistAdd color="red" /> Saved Videos
+                    </p>
+                    <VideoListView />
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </>
       )
     }}
   </CartContext.Consumer>

@@ -41,3 +41,23 @@
   padding-top: 2.5px;
   padding-right: 3px;
 }
+.player-wrapper {
+  width: auto;
+  height: auto;
+}
+.react-player {
+  padding-top: 56.25%;
+  position: relative;
+}
+
+.react-player > div {
+  position: absolute;
+}
+
+.width {
+  width: 1040px;
+}
+
+.icon-selected {
+  color: 'blue';
+}

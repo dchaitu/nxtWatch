@@ -4,11 +4,15 @@ import Loader from 'react-loader-spinner'
 import {Link} from 'react-router-dom'
 import {AiOutlineSearch} from 'react-icons/ai'
 import Banner from '../Banner'
-
+import CartContext from '../../context/CartContext'
 import ThumbNail from '../ThumbNail'
 import SideBar from '../SideBar'
 import {RowVideo, Unordered, Input} from './styledComponents'
 import Header from '../Header'
+import Home from '../Home'
+import Trending from '../Trending'
+import Gaming from '../Gaming'
+import './index.css'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -17,17 +21,18 @@ const apiStatusConstants = {
   inProgress: 'IN_PROGRESS',
 }
 
-export default class Home extends Component {
+export default class Main extends Component {
   state = {
     videosList: [],
     isLoading: true,
     apiStatus: apiStatusConstants.initial,
     searchInput: '',
+    optionSelected: 'Home',
   }
 
-  componentDidMount() {
-    this.getVideos()
-  }
+  //   componentDidMount() {
+  //     this.renderAllVideos()
+  //   }
 
   renderFailureView = () => (
     <div className="products-error-view-container">
@@ -45,16 +50,17 @@ export default class Home extends Component {
     </div>
   )
 
-  renderAllProducts = () => {
-    const {apiStatus} = this.state
-    console.log(apiStatus)
-    switch (apiStatus) {
-      case apiStatusConstants.success:
-        return this.renderProductsListView()
-      case apiStatusConstants.failure:
-        return this.renderFailureView()
-      case apiStatusConstants.inProgress:
-        return this.renderLoadingView()
+  renderAllVideos = event => {
+    const {optionSelected} = this.state
+    // console.log('apiStatus', apiStatus)
+    console.log('event', event.target.id)
+    switch (event.target.id) {
+      case 'Home':
+        return <Home />
+      case 'Trending':
+        return <Trending />
+      case 'Gaming':
+        return <Gaming />
       default:
         return null
     }
@@ -63,21 +69,27 @@ export default class Home extends Component {
   renderProductsListView = () => {
     const {videosList} = this.state
     const shouldShowVideosList = videosList.length > 0
-    console.log(shouldShowVideosList)
+    console.log('Show Videos', shouldShowVideosList)
+
     return shouldShowVideosList ? (
       <RowVideo>
-        <SideBar />
-        <div>
+        <div className="flex-item">
+          <Banner />
           <div className="input-group">
             <div className="form-outline">
               <input
                 type="search"
-                onChange={this.onChangeSearchInput}
+                // onChange={this.onChangeSearchInput}
+                onKeyDown={this.onEnterSearchInput}
                 id="form1"
                 className="form-control"
               />
             </div>
-            <button type="button" className="btn btn-primary">
+            <button
+              type="button"
+              onClick={this.onChangeSearchInput}
+              className="btn btn-secondary"
+            >
               <AiOutlineSearch />
             </button>
           </div>
@@ -145,8 +157,13 @@ export default class Home extends Component {
     }
   }
 
+  onEnterSearchInput = async event => {
+    this.setState({searchInput: event.target.value})
+    console.log(event.target.value)
+  }
+
   onChangeSearchInput = async event => {
-    const {videosList, searchInput} = this.state
+    const {searchInput} = this.state
     this.setState({searchInput: event.target.value})
     console.log('searchInput =', searchInput)
 
@@ -172,12 +189,24 @@ export default class Home extends Component {
 
   render() {
     return (
-      <>
-        <Header />
-        <Banner />
+      <CartContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
 
-        {this.renderAllProducts()}
-      </>
+          const homeBgClassName = isDarkTheme ? 'home-bg-dark' : 'home-bg-light'
+
+          const homeTextClassName = isDarkTheme
+            ? 'home-text-light'
+            : 'home-text-dark'
+          return (
+            <div className={`${homeBgClassName}`}>
+              <Header />
+              <SideBar onChange={this.renderAllVideos} />
+              {/* {this.renderAllVideos()} */}
+            </div>
+          )
+        }}
+      </CartContext.Consumer>
     )
   }
 }

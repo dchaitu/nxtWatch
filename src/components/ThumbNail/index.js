@@ -3,7 +3,7 @@ import {Row, Col, Box, ThumbNailImg} from './styledComponents'
 import './index.css'
 
 const ThumbNail = props => {
-  const {videos} = props
+  const {videos, textColor} = props
   const {
     channelName,
     profileImage,
@@ -26,12 +26,12 @@ const ThumbNail = props => {
   //   }))
   //   console.log('profileImage: ', channel)
   return (
-    <li className="none" key={id}>
+    <li className={`none ${textColor}`} key={id}>
       <Box>
         <div className="center">
-          <ThumbNailImg src={thumbnail} alt="thumbnail" />
+          <ThumbNailImg src={thumbnail} alt="video thumbnail" />
           <Row>
-            <img src={profileImage} className="profileImg" alt="profile img" />
+            <img src={profileImage} className="profileImg" alt="channel logo" />
             <Col>
               <p className="heading"> {title}</p>
               <p>{channelName}</p>

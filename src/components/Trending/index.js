@@ -2,12 +2,16 @@ import {Component} from 'react'
 import Cookies from 'js-cookie'
 import {Link} from 'react-router-dom'
 import Loader from 'react-loader-spinner'
+import {AiFillHome} from 'react-icons/ai'
+import {MdWhatshot, MdPlaylistAdd} from 'react-icons/md'
+import {SiYoutubegaming} from 'react-icons/si'
+import CartContext from '../../context/CartContext'
 import Banner from '../Banner'
-
 import TrendingItems from '../TrendingItems'
 import SideBar from '../SideBar'
 import {RowVideo, Unordered, Input} from './styledComponents'
 import Header from '../Header'
+import './index.css'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -19,7 +23,7 @@ const apiStatusConstants = {
 export default class Trending extends Component {
   state = {
     videosList: [],
-    isLoading: true,
+
     apiStatus: apiStatusConstants.initial,
   }
 
@@ -40,6 +44,11 @@ export default class Trending extends Component {
       <p className="products-failure-description">
         We are having some trouble processing your request. Please try again.
       </p>
+      <Link to="/trending">
+        <button type="button" className="btn btn-primary retry-btn">
+          Retry
+        </button>
+      </Link>
     </div>
   )
 
@@ -58,40 +67,67 @@ export default class Trending extends Component {
     }
   }
 
-  renderTrending = () => {
-    const {videosList} = this.state
-    const shouldShowVideosList = videosList.length > 0
-    console.log(shouldShowVideosList)
-    return shouldShowVideosList ? (
-      <RowVideo>
-        <SideBar />
+  renderTrending = () => (
+    <CartContext.Consumer>
+      {value => {
+        const {isDarkTheme} = value
 
-        <Unordered>
-          <ul>
-            {videosList.map(video => (
-              <li className="none" key={video.id}>
-                <Link to={`/video/${video.id}`}>
-                  <TrendingItems videos={video} />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </Unordered>
-      </RowVideo>
-    ) : (
-      <div className="no-products-view">
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-no-products-view.png"
-          className="no-products-img"
-          alt="no products"
-        />
-        <h1 className="no-products-heading">No Products Found</h1>
-        <p className="no-products-description">
-          We could not find any products. Try other filters.
-        </p>
-      </div>
-    )
-  }
+        const homeBgClassName = isDarkTheme ? 'home-bg-dark' : 'home-bg-light'
+
+        const homeTextClassName = isDarkTheme
+          ? 'home-text-light'
+          : 'home-text-dark'
+
+        const IconBgClassName = isDarkTheme
+          ? 'trend-icon-dark'
+          : 'trend-icon-light'
+
+        const HeadingBgClassName = isDarkTheme
+          ? 'trend-head-dark'
+          : 'trend-head-light'
+        const {videosList} = this.state
+        const shouldShowVideosList = videosList.length > 0
+        console.log(shouldShowVideosList)
+        return shouldShowVideosList ? (
+          <RowVideo>
+            <div className="trending">
+              <p className={`${HeadingBgClassName}`}>
+                <MdWhatshot
+                  className={`${IconBgClassName}`}
+                  size={40}
+                  color="red"
+                />
+                Trending
+              </p>
+              <Unordered>
+                <ul>
+                  {videosList.map(video => (
+                    <li className="none" key={video.id}>
+                      <Link to={`/video/${video.id}`}>
+                        <TrendingItems key={video.id} videos={video} />
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </Unordered>
+            </div>
+          </RowVideo>
+        ) : (
+          <div className="no-products-view">
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-no-products-view.png"
+              className="no-products-img"
+              alt="no products"
+            />
+            <h1 className="no-products-heading">No Products Found</h1>
+            <p className="no-products-description">
+              We could not find any products. Try other filters.
+            </p>
+          </div>
+        )
+      }}
+    </CartContext.Consumer>
+  )
 
   getVideos = async () => {
     const api = 'https://apis.ccbp.in/videos/trending'
@@ -140,14 +176,25 @@ export default class Trending extends Component {
   )
 
   render() {
-    const {videosList, isLoading} = this.state
     return (
-      <>
-        <Header />
-        <Banner />
-        <Input type="search" placeholder="Search" />
-        {this.renderAllTrendingProducts()}
-      </>
+      <CartContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+
+          const homeBgClassName = isDarkTheme
+            ? 'trend-bg-dark'
+            : 'trend-bg-light'
+
+          const homeTextClassName = isDarkTheme
+            ? 'home-text-light'
+            : 'home-text-dark'
+          return (
+            <div className={`${homeBgClassName}`}>
+              {this.renderAllTrendingProducts()}
+            </div>
+          )
+        }}
+      </CartContext.Consumer>
     )
   }
 }

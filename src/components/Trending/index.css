@@ -1,0 +1,57 @@
+.trend-head-dark {
+  background-color: #181818;
+  font-weight: bold;
+  font-size: 18px;
+  /* padding-left: 16px; */
+  color: white;
+  padding: 16px;
+  margin-left: 32px;
+}
+
+.trend-head-light {
+  background-color: #f8fafc;
+  font-weight: bold;
+  font-size: 18px;
+  /* padding-left: 16px; */
+  color: black;
+  padding: 16px;
+  margin-left: 32px;
+}
+
+.retry-btn {
+  background-color: #4f46e5;
+  padding: 5px;
+  color: white;
+  border-radius: 4px;
+}
+
+.trend-bg-dark {
+  background-color: #0f0f0f;
+  width: 100vw;
+}
+
+.trend-bg-light {
+  background-color: #f9f9f9;
+  width: 100vw;
+}
+
+.trend-icon-dark {
+  background-color: #0f0f0f;
+  padding: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 20px;
+}
+
+.trend-icon-light {
+  background-color: #f1f5f9;
+  padding: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-radius: 20px;
+}
+.trending {
+  display: flex;
+  flex-direction: column;
+  flex: 0.8;
+}

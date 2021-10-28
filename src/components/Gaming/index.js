@@ -1,12 +1,14 @@
 import {Component} from 'react'
 import Cookies from 'js-cookie'
 import Loader from 'react-loader-spinner'
+import {SiYoutubegaming} from 'react-icons/si'
 import Banner from '../Banner'
-
+import CartContext from '../../context/CartContext'
 import GamingItems from '../GamingItems'
 import SideBar from '../SideBar'
-import {RowVideo, Unordered, Input} from './styledComponents'
+import {RowVideo, Unordered, Input, SidePage} from './styledComponents'
 import Header from '../Header'
+import './index.css'
 
 const apiStatusConstants = {
   initial: 'INITIAL',
@@ -57,34 +59,67 @@ export default class Gaming extends Component {
     }
   }
 
-  renderGaming = () => {
-    const {videosList} = this.state
-    const shouldShowVideosList = videosList.length > 0
-    console.log(shouldShowVideosList)
-    return shouldShowVideosList ? (
-      <RowVideo>
-        <SideBar />
+  renderGaming = () => (
+    <CartContext.Consumer>
+      {value => {
+        const {isDarkTheme} = value
 
-        <Unordered>
-          {videosList.map(video => (
-            <GamingItems videos={video} />
-          ))}
-        </Unordered>
-      </RowVideo>
-    ) : (
-      <div className="no-products-view">
-        <img
-          src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-no-products-view.png"
-          className="no-products-img"
-          alt="no products"
-        />
-        <h1 className="no-products-heading">No Products Found</h1>
-        <p className="no-products-description">
-          We could not find any products. Try other filters.
-        </p>
-      </div>
-    )
-  }
+        const homeBgClassName = isDarkTheme ? 'home-bg-dark' : 'home-bg-light'
+
+        const homeTextClassName = isDarkTheme
+          ? 'home-text-light'
+          : 'home-text-dark'
+
+        const IconBgClassName = isDarkTheme
+          ? 'trend-icon-dark'
+          : 'trend-icon-light'
+
+        const HeadingBgClassName = isDarkTheme
+          ? 'trend-head-dark'
+          : 'trend-head-light'
+        const {videosList} = this.state
+        const shouldShowVideosList = videosList.length > 0
+        console.log(shouldShowVideosList)
+        return shouldShowVideosList ? (
+          <RowVideo>
+            <SideBar />
+            <SidePage>
+              <div className="trending">
+                <p className={`${HeadingBgClassName}`}>
+                  <SiYoutubegaming
+                    className={`${IconBgClassName}`}
+                    size={40}
+                    color="red"
+                  />
+                  Gaming
+                </p>
+                <Unordered>
+                  {videosList.map(video => (
+                    <GamingItems
+                      videos={video}
+                      textColor={`${homeTextClassName}`}
+                    />
+                  ))}
+                </Unordered>
+              </div>
+            </SidePage>
+          </RowVideo>
+        ) : (
+          <div className="no-products-view">
+            <img
+              src="https://assets.ccbp.in/frontend/react-js/nxt-trendz/nxt-trendz-no-products-view.png"
+              className="no-products-img"
+              alt="no products"
+            />
+            <h1 className="no-products-heading">No Products Found</h1>
+            <p className="no-products-description">
+              We could not find any products. Try other filters.
+            </p>
+          </div>
+        )
+      }}
+    </CartContext.Consumer>
+  )
 
   getVideos = async () => {
     const api = 'https://apis.ccbp.in/videos/gaming'
@@ -131,14 +166,23 @@ export default class Gaming extends Component {
   )
 
   render() {
-    const {videosList, isLoading} = this.state
     return (
-      <>
-        <Header />
-        <Banner />
-        <Input type="search" placeholder="Search" />
-        {this.renderAllGamingProducts()}
-      </>
+      <CartContext.Consumer>
+        {value => {
+          const {isDarkTheme} = value
+
+          const homeBgClassName = isDarkTheme ? 'home-bg-dark' : 'home-bg-light'
+
+          const homeTextClassName = isDarkTheme
+            ? 'home-text-light'
+            : 'home-text-dark'
+          return (
+            <div className={`${homeBgClassName}`}>
+              {this.renderAllGamingProducts()}
+            </div>
+          )
+        }}
+      </CartContext.Consumer>
     )
   }
 }

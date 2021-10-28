@@ -18,11 +18,14 @@ export const Box = styled.div`
 `
 export const ImgIcon = styled.img`
   height: 40px;
+  margin: 5px;
 `
 
 export const Space = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: space-between;
-  flex: 0.2;
+  align-items: space-around;
+  flex: 0.3;
+  //   min-height: 40vh;
+  // width: 40vw;
 `

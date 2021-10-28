@@ -13,6 +13,7 @@ export const Unordered = styled.ul`
   padding: 10px;
   flex-wrap: wrap;
   flex: 0.8;
+  width: 70vw;
 `
 
 export const Input = styled.input`
@@ -20,11 +21,4 @@ export const Input = styled.input`
   flex-direction: row;
   justify-content: center;
   align-items: center;
-`
-export const SidePage = styled.div`
-  display: flex;
-  flex-direction: column;
-  flex-wrap: wrap;
-  flex: 0.8;
-  //   justify-content: space-between;
 `
